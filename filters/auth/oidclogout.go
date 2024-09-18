@@ -12,18 +12,22 @@ import (
 )
 
 type oidcLogoutSpec struct {
-	config *OAuthConfig
+	oidcOptions *OidcOptions
 }
 
 type oidcLogoutFilter struct {
-	config *OAuthConfig
+	oidcOptions *OidcOptions
+}
+
+func NewOAuthOidcLogoutFilter(options OidcOptions) filters.Spec {
+	return &oidcLogoutSpec{oidcOptions: &options}
 }
 
 func (*oidcLogoutSpec) Name() string { return filters.GrantLogoutName }
 
 func (s *oidcLogoutSpec) CreateFilter([]interface{}) (filters.Filter, error) {
 	return &oidcLogoutFilter{
-		config: s.config,
+		oidcOptions: s.oidcOptions,
 	}, nil
 }
 
